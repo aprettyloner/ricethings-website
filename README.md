@@ -25,6 +25,7 @@ Place this into dockerfile within parent directory<br>
 ### Test the localhost
 
 `http://localhost:800/` in the browser (works as expected)
+
 <br><br>
 ---
 ## Challenge 1 - docker-compose
