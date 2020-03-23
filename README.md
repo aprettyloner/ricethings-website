@@ -1,7 +1,7 @@
 # ricethings-website
 
 
-### Challenge 0 - Docker
+## Challenge 0 - Docker
 Get a static website built into and served from within Docker on your mac.
 
 ### Create Dockerfile
@@ -26,8 +26,8 @@ Place this into dockerfile within parent directory<br>
 
 `http://localhost:800/` in the browser (works as expected)
 
-
-### Challenge 1 - docker-compose
+---
+## Challenge 1 - docker-compose
 Set up docker-compose to make it so you can edit the content of the site while it is being served
 via a volume.
 
@@ -37,31 +37,41 @@ via a volume.
 
 
 
-### Challenge 2 - Tilt
+---
+## Challenge 2 - Tilt
 Set up tilt to be an alternate interface to docker-compose.
 
-## Kubernetes Starter Challengs
+---
+---
+# Kubernetes Starter Challenges
 
-### Challenge 3 - Kubernetes
+## Challenge 3 - Kubernetes
 Via direct yaml manifests, set up a Deployment and a Service to get your docker image serving inside
 a local Kubernetes cluster.
 
-### Challenge 4 - Tilt+Kubernetes
+---
+## Challenge 4 - Tilt+Kubernetes
 Change your tilt setup to no longer use docker-compose but instead have it manage the deployment
 inside your Kubernetes cluster.
 
-### Challenge 5 - GKE
+---
+## Challenge 5 - GKE
 Change your tilt+Kubernetes setup to target a remote cluster (use GKE)
 
-## Kubernetes Advanced Challenges
+---
+---
+# Kubernetes Advanced Challenges
 
-### Challenge 6 - Istio
+---
+## Challenge 6 - Istio
 Turn on Istio in your Kubernetes cluster, get your app to be served up by Istio (via a VirtualService).
 
-### Challenge 7 - Helm
+---
+## Challenge 7 - Helm
 Package up your app in a Helm chart, get it deploying to GKE.
 
-### Challenge 8 - Helm+Tilt
+---
+## Challenge 8 - Helm+Tilt
 Package up your app in a Helm chart, get it deploying to GKE via Tilt.
 
 # Choose your own adventures
@@ -69,16 +79,16 @@ Package up your app in a Helm chart, get it deploying to GKE via Tilt.
 ### Path: Terraform
 These challenges go down the path of performing full infrastructure as code.
 
-### Challenge TF1 - Terraform
+## Challenge TF1 - Terraform
 Bring up a matching GKE cluster via Terraform, move your process over to it.
 
 
 ## Path: CI
 This path has you explore aspects of Release engineering and continuous integration.
 
-### Challenge CI1 - CI
+## Challenge CI1 - CI
 Write a Cloud Build or Github Action that releases a new version of your code when a merge to master occurs.
 
-### Challenge CI2 - CI Preview Branches
+## Challenge CI2 - CI Preview Branches
 Write a Cloud Build or Github Action that releases a new version of your code to some alternate URL when code is pushed to a branch.
 
