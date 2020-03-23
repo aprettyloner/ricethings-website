@@ -41,8 +41,7 @@ via a volume.
 ## Challenge 2 - Tilt
 Set up tilt to be an alternate interface to docker-compose.
 
----
----
+<br><br><br><br>
 # Kubernetes Starter Challenges
 
 ## Challenge 3 - Kubernetes
@@ -58,8 +57,8 @@ inside your Kubernetes cluster.
 ## Challenge 5 - GKE
 Change your tilt+Kubernetes setup to target a remote cluster (use GKE)
 
----
----
+
+<br><br><br><br>
 # Kubernetes Advanced Challenges
 
 ---
@@ -74,21 +73,26 @@ Package up your app in a Helm chart, get it deploying to GKE.
 ## Challenge 8 - Helm+Tilt
 Package up your app in a Helm chart, get it deploying to GKE via Tilt.
 
+
+<br><br><br><br>
 # Choose your own adventures
 
 ### Path: Terraform
 These challenges go down the path of performing full infrastructure as code.
 
+---
 ## Challenge TF1 - Terraform
 Bring up a matching GKE cluster via Terraform, move your process over to it.
 
-
+---
 ## Path: CI
 This path has you explore aspects of Release engineering and continuous integration.
 
+---
 ## Challenge CI1 - CI
 Write a Cloud Build or Github Action that releases a new version of your code when a merge to master occurs.
 
+---
 ## Challenge CI2 - CI Preview Branches
 Write a Cloud Build or Github Action that releases a new version of your code to some alternate URL when code is pushed to a branch.
 
