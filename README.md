@@ -51,6 +51,10 @@ psql -U postgres
 
 `psql -U postgres < menu.sql`
 
+#### Build from yaml file
+
+`docker-compose -f docker-compose.yml up --remove-orphans` Remove orphans flag added
+
 
 <br><br>
 ---
