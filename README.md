@@ -58,7 +58,7 @@ psql -U postgres
 `docker-compose -f docker-compose.yml up --remove-orphans` Remove orphans flag added
 
 
-### TESTING
+### Learning Aside: Concrete example of bind mounts vs. volumes
 `docker run -it --name test1 -v ~/ricethings-website/docs/data:/data ubuntu bash` Bind mount <br>
 `docker run -it --name test2 -v data:/data ubuntu bash` Docker volume <br>
 `docker volume prune` Removes all volumes not used by 1+ containers <br>
@@ -66,6 +66,11 @@ psql -U postgres
 `docker run -it --name master -v backup:/backup -v logs:/logs ubuntu bash` Creates and mounts 2 volumes <br>
 `docker run -it --name slave1 --volumes-from master ubuntu bash` New container 'slave1' with volumes from master
 
+# FINAL COMMANDS
+`docker build -t html-server-image:v1 .` Build web server image<br>
+`docker-compose -f docker-compose.yml up --remove-orphans` Docker-compose to start postgres/nginx containers<br>
+`docker exec -t -i $CONTAINER_ID /bin/sh` Allows for bash in nginx container<br>
+`cd /usr/share/nginx/html` Make changes here to serving site.
 
 <br><br>
 ---
