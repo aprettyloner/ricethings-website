@@ -2,23 +2,24 @@ version: '3.7'
 
 services:
     db:
+      #container-name: postgres-ricethings
       image: postgres
       restart: always
       environment:
+        POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
+      ports:
+        - "5431:5432"        
 
-    app:
+    nginx:
       image: html-server-image:v1
+      #container_name: nginx-ricethings
       restart: always
       ports:
         - 800:80
-      # volumes:
-      #   - type: volume
-      #     source: $HOME/ricethings-website/docs
-      #     volume:
-      #       nocopy: true
+      volumes:
+        - $HOME/ricethings-website/docs:/docs
       
-volumes:
-  web_data:
-    external: true
+# volumes:
+#   docs:
 

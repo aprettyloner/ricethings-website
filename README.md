@@ -53,6 +53,8 @@ psql -U postgres
 
 #### Build from yaml file
 
+`docker build - < Dockerfile` Build from dockerfile <br>
+`docker volume create --name=myvol` Create volume manually (numerous errors otherwise)<br>
 `docker-compose -f docker-compose.yml up --remove-orphans` Remove orphans flag added
 
 
