@@ -87,8 +87,11 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/miniku
 sudo mkdir -p /usr/local/bin/
 sudo install minikube /usr/local/bin/
 ```
-`sudo minikube start --vm-driver=none` Confirm installation (requires root)<br>
-- [Error launching Kubernetes - See Failure](#failed)
+Confirm installation (requires root)<br>
+- `sudo minikube start --vm-driver kvm2` [Error launching k8s - See Failure](#failed)
+- `sudo minikube start --vm-driver=none` [Error launching k8s - See Failure](#failed2)
+
+`systemctl enable kubelet.service`
 
 
 
@@ -168,6 +171,9 @@ Write a Cloud Build or Github Action that releases a new version of your code to
 
 
 # Failed
+
+### `minikube start --vm-driver kvm2`
+
 ```
 🚀  Launching Kubernetes ... 
 
@@ -200,5 +206,46 @@ To see the stack trace of this error execute with --v=5 or higher
     Mar 23 13:33:16 nina-LENOVO dockerd[1713]: time="2020-03-23T13:33:16.453592053-07:00" level=warning msg="Failed to allocate and map port 80-80: Error starting userland proxy: listen tcp 0.0.0.0:80: bind: address already in use"
     Mar 23 13:33:17 nina-LENOVO dockerd[1713]: time="2020-03-23T13:33:17.305390236-07:00" level=error msg="Handler for POST /v1.39/containers/afb000d5ecaca5a0a820af142f550927178a55dd8b10fd3b8c63e32423985a11/start returned error: driver failed programming external connectivity on endpoint wonderful_meitner (699f89b560e3d9ee872f8ed81d383b191d919b49999fc7cd89f64c73f9891ae7): Error starting userland proxy: listen tcp 0.0.0.0:80: bind: address already in use"
     Mar 23 13:34:25 nina-LENOVO dockerd[1713]: time="2020-03-23T13:34:25.863657047-07:00" level=warning msg="Failed to allocate and map port 80-80: Error starting userland proxy: listen tcp 0.0.0.0:80: bind: address already in use"
+
+```
+
+
+## Failed2
+### `minikube start --vm-driver none`
+
+```
+😄  minikube v1.8.2 on Ubuntu 19.04
+✨  Using the none driver based on existing profile
+⌛  Reconfiguring existing host ...
+🏃  Using the running none "minikube" bare metal machine ...
+ℹ️   OS release is Ubuntu 19.04
+🐳  Preparing Kubernetes v1.17.3 on Docker 18.09.7 ...
+    ▪ kubelet.resolv-conf=/run/systemd/resolve/resolv.conf
+🚀  Launching Kubernetes ... 
+
+💣  Error starting cluster: init failed. output: "-- stdout --\n[init] Using Kubernetes version: v1.17.3\n[preflight] Running pre-flight checks\n\n-- /stdout --\n** stderr ** \nW0324 16:35:03.696423    7896 validation.go:28] Cannot validate kube-proxy config - no validator is available\nW0324 16:35:03.696540    7896 validation.go:28] Cannot validate kubelet config - no validator is available\n\t[WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". Please follow the guide at https://kubernetes.io/docs/setup/cri/\n\t[WARNING Swap]: running with swap on is not supported. Please disable swap\n\t[WARNING FileExisting-ebtables]: ebtables not found in system path\n\t[WARNING FileExisting-ethtool]: ethtool not found in system path\n\t[WARNING FileExisting-socat]: socat not found in system path\n\t[WARNING Port-10250]: Port 10250 is in use\nerror execution phase preflight: [preflight] Some fatal errors occurred:\n\t[ERROR Port-10259]: Port 10259 is in use\n\t[ERROR Port-10257]: Port 10257 is in use\n\t[ERROR Port-2380]: Port 2380 is in use\n[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`\nTo see the stack trace of this error execute with --v=5 or higher\n\n** /stderr **": /bin/bash -c "sudo env PATH=/var/lib/minikube/binaries/v1.17.3:$PATH kubeadm init --config /var/tmp/minikube/kubeadm.yaml  --ignore-preflight-errors=DirAvailable--etc-kubernetes-manifests,DirAvailable--var-lib-minikube,DirAvailable--var-lib-minikube-etcd,FileAvailable--etc-kubernetes-manifests-kube-scheduler.yaml,FileAvailable--etc-kubernetes-manifests-kube-apiserver.yaml,FileAvailable--etc-kubernetes-manifests-kube-controller-manager.yaml,FileAvailable--etc-kubernetes-manifests-etcd.yaml,Port-10250,Swap,SystemVerification": exit status 1
+stdout:
+[init] Using Kubernetes version: v1.17.3
+[preflight] Running pre-flight checks
+
+stderr:
+W0324 16:35:03.696423    7896 validation.go:28] Cannot validate kube-proxy config - no validator is available
+W0324 16:35:03.696540    7896 validation.go:28] Cannot validate kubelet config - no validator is available
+	[WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
+	[WARNING Swap]: running with swap on is not supported. Please disable swap
+	[WARNING FileExisting-ebtables]: ebtables not found in system path
+	[WARNING FileExisting-ethtool]: ethtool not found in system path
+	[WARNING FileExisting-socat]: socat not found in system path
+	[WARNING Port-10250]: Port 10250 is in use
+error execution phase preflight: [preflight] Some fatal errors occurred:
+	[ERROR Port-10259]: Port 10259 is in use
+	[ERROR Port-10257]: Port 10257 is in use
+	[ERROR Port-2380]: Port 2380 is in use
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher
+
+
+😿  minikube is exiting due to an error. If the above message is not useful, open an issue:
+👉  https://github.com/kubernetes/minikube/issues/new/choose
 
 ```
