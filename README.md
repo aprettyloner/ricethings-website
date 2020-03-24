@@ -56,6 +56,15 @@ psql -U postgres
 `docker-compose -f docker-compose.yml up --remove-orphans` Remove orphans flag added
 
 
+### TESTING
+`docker run -it --name test1 -v ~/ricethings-website/docs/data:/data ubuntu bash` Bind mount <br>
+`docker run -it --name test2 -v data:/data ubuntu bash` Docker volume <br>
+`docker volume prune` Removes all volumes not used by 1+ containers <br>
+`docker run -it --name test3 -v data:/data ubuntu bash` Attach existing volume despite deleting test2 <br>
+`docker run -it --name master -v backup:/backup -v logs:/logs ubuntu bash` Creates and mounts 2 volumes <br>
+`docker run -it --name slave1 --volumes-from master ubuntu bash` New container 'slave1' with volumes from master
+
+
 <br><br>
 ---
 ## Challenge 2 - Tilt
