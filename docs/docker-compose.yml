@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
     db:
@@ -7,9 +7,18 @@ services:
       environment:
         POSTGRES_PASSWORD: postgres
 
-    html-server:
+    app:
       image: html-server-image:v1
       restart: always
       ports:
         - 800:80
+      # volumes:
+      #   - type: volume
+      #     source: $HOME/ricethings-website/docs
+      #     volume:
+      #       nocopy: true
+      
+volumes:
+  web_data:
+    external: true
 
