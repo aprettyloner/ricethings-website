@@ -37,6 +37,21 @@ via a volume.
 `pip install docker-compose`
 
 
+#### Set up postgres container
+
+```
+docker run -d -p 5432:5432 -v "$(pwd)":/home/ postgres
+docker container ls
+docker exec -it wizardly_franklin bash
+cd home/
+psql -U postgres
+```
+
+#### Add sql dump from pgAdmin
+
+`psql -U postgres < menu.sql`
+
+
 <br><br>
 ---
 ## Challenge 2 - Tilt
