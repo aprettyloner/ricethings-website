@@ -1,0 +1,3 @@
+docker_build('ricethings-html-image', '.')
+k8s_yaml('kubernetes.yaml')
+k8s_resource('ricethings-html', port_forwards=8000)
