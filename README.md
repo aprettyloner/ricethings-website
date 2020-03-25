@@ -179,7 +179,21 @@ sudo apt-get update
 sudo apt-get install -y kubectl
 ```
 
+## kubectl dashboard
+Note: This isn't working, let's just go by command line for now
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-rc6/aio/deploy/recommended.yaml
+```
+
+## kubectl commands
+`kubectl get pods` 
+`kubectl delete pods <name>`
+`tilt down` - Remember to tilt down to actually shut down cluster. Will just recreate pods if you stop them, silly!
+
 # Challenge 3 - Kubernetes
+
+
+
 
 Via direct yaml manifests, set up a Deployment and a Service to get your docker image serving inside
 a local Kubernetes cluster.
