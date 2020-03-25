@@ -269,8 +269,9 @@ Write a Cloud Build or Github Action that releases a new version of your code to
 
 # Practice 1
 Tutorial - https://docs.tilt.dev/example_static_html.html
-Easy tilt tutorial for basic HTML app. `git clone git@github.com:windmilleng/tilt-example-html.git`
 An example project that demonstrates a live-updating server with nothing but Shell, HTML, and Kubernetes.
+
+`git clone git@github.com:windmilleng/tilt-example-html.git`
 
 Requirements:
 1. Dockerfile (builds the image)
