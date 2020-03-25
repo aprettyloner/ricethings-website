@@ -97,10 +97,79 @@ psql -U postgres
 ## Challenge 2 - Tilt
 Set up tilt to be an alternate interface to docker-compose.
 
+#### tilt installation - https://docs.tilt.dev/install.html
+
+1. Setup Docker as a non-root user - https://docs.docker.com/install/linux/linux-postinstall/
+
+    `sudo groupadd docker-nonroot` Create the docker group.<br>
+    `sudo usermod -aG docker-nonroot $USER` Add your user to the docker group.<br>
+    `docker run hello-world` Test that nonroot works
+
+##### Add user permissions to fix error: <br>`WARNING: Error loading config file:/home/user/.docker/config.json - stat /home/user/.docker/config.json: permission denied`
+```
+sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
+sudo chmod g+rwx "/home/$USER/.docker" -R
+```
+
+2. Install kubectl - [see below](#kubectl-installation---https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux)
+
+3. Install Microk8s:
+Enable dns fails! [See fix below](#trying-fix)
+```
+sudo snap install microk8s --classic && \
+sudo microk8s.enable dns && \
+sudo microk8s.enable registry
+```
+
+### Trying fix for microk8s dns error
+First remove the version of microk8s you already have, it might be disabled. Then redeploy from the edge channel since it has a lot of fixes:
+```
+sudo snap enable microk8s
+sudo snap remove microk8s
+sudo snap install microk8s --edge --classic
+sudo microk8s.enable dns && \
+sudo microk8s.enable registry
+```
+### WORKED! Proceeeding...
+
+#### Retrying instructions for starting microk8s from https://microk8s.io/docs/ 
+```
+sudo usermod -a -G microk8s $USER
+su - $USER
+microk8s.status --wait-ready
+```
+
+
+#### The following configuration code fails!! [See manual fix below](#fix-by-hand)
+```
+sudo microk8s.kubectl config view --flatten > ~/.kube/microk8s-config
+sudo KUBECONFIG=~/.kube/microk8s-config:~/.kube/config kubectl config view --flatten > ~/.kube/temp-config 
+sudo mv ~/.kube/temp-config ~/.kube/config 
+sudo kubectl config use-context microk8s
+```
+
+
+### Fix by hand
+`sudo microk8s.kubectl config view --flatten` Copy output<br>
+`sudo nano ~/.kube/microk8s-config` Paste here <br>
+`sudo KUBECONFIG=~/.kube/microk8s-config:~/.kube/config kubectl config view --flatten` Copy output<br>
+`sudo nano ~/.kube/temp-config` Paste here <br>
+`sudo mv ~/.kube/temp-config ~/.kube/config`<br>
+`sudo chown -R $USER ~/.kube` Should have done this earlier. Whatever. Change permissions for tilt to work, find kube config.
+
+### WORKED! Proceeeding...
+
+4. Install Tilt binary
+```
+curl -fsSL https://raw.githubusercontent.com/windmilleng/tilt/master/scripts/install.sh | bash
+tilt version
+```
+
+
 <br><br><br><br>
 # Kubernetes Starter Challenges
 
-##### minikube installation - https://kubernetes.io/docs/tasks/tools/install-minikube/
+### minikube installation - https://kubernetes.io/docs/tasks/tools/install-minikube/
 `grep -E --color 'vmx|svm' /proc/cpuinfo` First, check that virtualization is supported (good - nonempty output)<br>
 ```
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
@@ -108,17 +177,22 @@ sudo mkdir -p /usr/local/bin/
 sudo install minikube /usr/local/bin/
 ```
 Confirm installation (requires root)<br>
-- `sudo minikube start --vm-driver kvm2` [Error launching k8s - See Failure](#failed)
-- `sudo minikube start --vm-driver=none` [Error launching k8s - See Failure](#failed2)
-
-`systemctl enable kubelet.service` Don't do this - it opens ports and causes issues <br>
-`sudo lsof -i:2380` check open port - PID for kill
+- `sudo minikube start --vm-driver kvm2` [Error launching k8s with KVM - See Failure](#failed)
+- `sudo minikube start --vm-driver none` [Error launching k8s with no driver- See Failure](#failed2)
 
 
+Create your own problems, then take an hour to fix them :P<br>
+- `systemctl enable kubelet.service` DON'T DO THIS AGAIN! - it opens ports and causes issues <br>
+- `sudo lsof -i:2380` check open port - PID for kill
 
-`minikube status` Check status of cluster
 
-##### kubectl installation - https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux
+Check status of cluster, start minikube<br>
+- `minikube status` 
+- `sudo minikube start --vm-driver none`
+- `docker container stop $(docker container ls -q --filter name=k8s*)` Stop all docker containers by pattern matching name
+- `docker rm $(docker ps -a -q)` Remove all stopped containers
+
+### kubectl installation - https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux
 ```
 sudo apt-get update && sudo apt-get install -y apt-transport-https
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -200,6 +274,66 @@ Write a Cloud Build or Github Action that releases a new version of your code to
 `docker run -it --name test3 -v data:/data ubuntu bash` Attach existing volume despite deleting test2 <br>
 `docker run -it --name master -v backup:/backup -v logs:/logs ubuntu bash` Creates and mounts 2 volumes <br>
 `docker run -it --name slave1 --volumes-from master ubuntu bash` New container 'slave1' with volumes from master
+
+# Practice 1
+Tutorial - https://docs.tilt.dev/example_static_html.html
+Easy tilt tutorial for basic HTML app. `git clone git@github.com:windmilleng/tilt-example-html.git`
+An example project that demonstrates a live-updating server with nothing but Shell, HTML, and Kubernetes.
+
+Requirements:
+1. Dockerfile (builds the image)
+Dockerfile
+```
+FROM busybox
+WORKDIR /app
+ADD . .
+ENTRYPOINT ./main.sh
+```
+
+2. Kubernetes Deployment (runs the image)
+kubernetes.yaml
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-html
+  labels:
+    app: example-html
+spec:
+  selector:
+    matchLabels:
+      app: example-html
+  template:
+    metadata:
+      labels:
+        app: example-html
+    spec:
+      containers:
+      - name: example-html
+        image: example-html-image
+        ports:
+        - containerPort: 8000
+```
+
+3. Tiltfile (binds 1 and 2)
+```
+docker_build('example-html-image', '.')
+k8s_yaml('kubernetes.yaml')
+k8s_resource('example-html', port_forwards=8000, resource_deps=['deploy'])
+
+# Records the time from a code change to a new process Normally, you would let Tilt do deploys automatically, but this shows you how to set up a custom workflow that measures it.
+local_resource(
+  'deploy',
+  'date +%s > start-time.txt')
+```
+
+Run it, try it 
+```
+git clone https://github.com/windmilleng/tilt-example-html
+cd tilt-example-html/0-base
+tilt up
+```
+
 
 <br><br>
 # Failed
