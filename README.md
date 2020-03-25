@@ -91,7 +91,8 @@ Confirm installation (requires root)<br>
 - `sudo minikube start --vm-driver kvm2` [Error launching k8s - See Failure](#failed)
 - `sudo minikube start --vm-driver=none` [Error launching k8s - See Failure](#failed2)
 
-`systemctl enable kubelet.service`
+`systemctl enable kubelet.service` Don't do this - it opens ports and causes issues <br>
+`sudo lsof -i:2380` check open port - PID for kill
 
 
 
