@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ricethings-html
+  labels:
+    app: ricethings-html
+spec:
+  selector:
+    matchLabels:
+      app: ricethings-html
+  template:
+    metadata:
+      labels:
+        app: ricethings-html
+    spec:
+      containers:
+      - name: ricethings-html
+        image: ricethings-html-image
+        ports:
+        - containerPort: 8000
