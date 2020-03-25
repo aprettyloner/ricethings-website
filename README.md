@@ -25,7 +25,7 @@
 
 # Warmup
 
-## Challenge 0 - Docker
+# Challenge 0 - Docker
 Get a static website built into and served from within Docker on your mac.
 
 #### Create Dockerfile
@@ -43,7 +43,10 @@ Place this into dockerfile within parent directory<br>
 #### Run the Docker Container
 
 `docker run -d -p 80:80 html-server-image:v1` Doesn't work, port is occupied<br>
-`docker run -d -p 800:80 html-server-image:v1`
+
+```
+docker run -d -p 800:80 html-server-image:v1
+```
 
 
 #### Test the localhost
@@ -53,7 +56,7 @@ Place this into dockerfile within parent directory<br>
 <br><br>
 ---
 
-## Challenge 1 - docker-compose
+# Challenge 1 - docker-compose
 Set up docker-compose to make it so you can edit the content of the site while it is being served
 via a volume.
 
@@ -62,20 +65,6 @@ via a volume.
 `pip install docker-compose`
 
 
-#### Set up postgres container
-
-```
-docker run -d -p 5432:5432 -v "$(pwd)":/home/ postgres
-docker container ls
-docker exec -it wizardly_franklin bash
-cd home/
-psql -U postgres
-```
-
-#### Add sql dump from pgAdmin
-
-`psql -U postgres < menu.sql`
-
 #### Build from yaml file
 
 `docker build - < Dockerfile` Build from dockerfile <br>
@@ -83,10 +72,11 @@ psql -U postgres
 `docker-compose -f docker-compose.yml up --remove-orphans` Remove orphans flag added
 
 ## [Review: Volume vs Bind Mount](#Practice-0)
+## [Review: Postgres via docker](#postgres-review)
 
 <br><br>
 
-# FINAL COMMANDS
+## CHALLENGE 1 - SOLUTION
 `docker build -t html-server-image:v1 .` Build web server image<br>
 `docker-compose -f docker-compose.yml up --remove-orphans` Docker-compose to start postgres/nginx containers<br>
 `docker exec -t -i $CONTAINER_ID /bin/sh` Allows for bash in nginx container<br>
@@ -94,77 +84,65 @@ psql -U postgres
 
 <br><br>
 ---
-## Challenge 2 - Tilt
+
+# Challenge 2 - Tilt
 Set up tilt to be an alternate interface to docker-compose.
 
-#### tilt installation - https://docs.tilt.dev/install.html
+#### Step 0: Painstaking setup
 
-1. Setup Docker as a non-root user - https://docs.docker.com/install/linux/linux-postinstall/
+[See setup trials and tribulations](#Tilt-setup)
 
-    `sudo groupadd docker-nonroot` Create the docker group.<br>
-    `sudo usermod -aG docker-nonroot $USER` Add your user to the docker group.<br>
-    `docker run hello-world` Test that nonroot works
+#### Step 1: Get acquainted via tutorial
+[Simple tilt tutorial](#Practice-1)
 
-##### Add user permissions to fix error: <br>`WARNING: Error loading config file:/home/user/.docker/config.json - stat /home/user/.docker/config.json: permission denied`
+#### Step 2: Execute
+1. Dockerfile
 ```
-sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
-sudo chmod g+rwx "/home/$USER/.docker" -R
-```
-
-2. Install kubectl - [see below](#kubectl-installation---https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux)
-
-3. Install Microk8s:
-Enable dns fails! [See fix below](#trying-fix)
-```
-sudo snap install microk8s --classic && \
-sudo microk8s.enable dns && \
-sudo microk8s.enable registry
+FROM busybox
+WORKDIR .
+ADD . .
+ENTRYPOINT ./main.sh
 ```
 
-### Trying fix for microk8s dns error
-First remove the version of microk8s you already have, it might be disabled. Then redeploy from the edge channel since it has a lot of fixes:
+2. kubernetes.yaml
 ```
-sudo snap enable microk8s
-sudo snap remove microk8s
-sudo snap install microk8s --edge --classic
-sudo microk8s.enable dns && \
-sudo microk8s.enable registry
-```
-### WORKED! Proceeeding...
-
-#### Retrying instructions for starting microk8s from https://microk8s.io/docs/ 
-```
-sudo usermod -a -G microk8s $USER
-su - $USER
-microk8s.status --wait-ready
-```
-
-
-#### The following configuration code fails!! [See manual fix below](#fix-by-hand)
-```
-sudo microk8s.kubectl config view --flatten > ~/.kube/microk8s-config
-sudo KUBECONFIG=~/.kube/microk8s-config:~/.kube/config kubectl config view --flatten > ~/.kube/temp-config 
-sudo mv ~/.kube/temp-config ~/.kube/config 
-sudo kubectl config use-context microk8s
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ricethings-html
+  labels:
+    app: ricethings-html
+spec:
+  selector:
+    matchLabels:
+      app: ricethings-html
+  template:
+    metadata:
+      labels:
+        app: ricethings-html
+    spec:
+      containers:
+      - name: ricethings-html
+        image: ricethings-html-image
+        ports:
+        - containerPort: 8000
 ```
 
-
-### Fix by hand
-`sudo microk8s.kubectl config view --flatten` Copy output<br>
-`sudo nano ~/.kube/microk8s-config` Paste here <br>
-`sudo KUBECONFIG=~/.kube/microk8s-config:~/.kube/config kubectl config view --flatten` Copy output<br>
-`sudo nano ~/.kube/temp-config` Paste here <br>
-`sudo mv ~/.kube/temp-config ~/.kube/config`<br>
-`sudo chown -R $USER ~/.kube` Should have done this earlier. Whatever. Change permissions for tilt to work, find kube config.
-
-### WORKED! Proceeeding...
-
-4. Install Tilt binary
+3. Tiltfile
 ```
-curl -fsSL https://raw.githubusercontent.com/windmilleng/tilt/master/scripts/install.sh | bash
-tilt version
+docker_build('ricethings-html-image', '.')
+k8s_yaml('kubernetes.yaml')
+k8s_resource('ricethings-html', port_forwards=8000)
 ```
+Note: Had to remove `resource_deps=['deploy']` - wonder why this dep is not found as compared to tutorial
 
+## CHALLENGE 2 - SOLUTION
+
+```
+cd ricethings-website/docs
+tilt up
+```
+check in browser: `http://localhost:8000/`
 
 <br><br><br><br>
 # Kubernetes Starter Challenges
@@ -201,21 +179,21 @@ sudo apt-get update
 sudo apt-get install -y kubectl
 ```
 
-## Challenge 3 - Kubernetes
+# Challenge 3 - Kubernetes
 
 Via direct yaml manifests, set up a Deployment and a Service to get your docker image serving inside
 a local Kubernetes cluster.
 
 <br><br>
 ---
-## Challenge 4 - Tilt+Kubernetes
+# Challenge 4 - Tilt+Kubernetes
 
 Change your tilt setup to no longer use docker-compose but instead have it manage the deployment
 inside your Kubernetes cluster.
 
 <br><br>
 ---
-## Challenge 5 - GKE
+# Challenge 5 - GKE
 Change your tilt+Kubernetes setup to target a remote cluster (use GKE)
 
 
@@ -223,17 +201,17 @@ Change your tilt+Kubernetes setup to target a remote cluster (use GKE)
 # Kubernetes Advanced Challenges
 <br><br>
 ---
-## Challenge 6 - Istio
+# Challenge 6 - Istio
 Turn on Istio in your Kubernetes cluster, get your app to be served up by Istio (via a VirtualService).
 
 <br><br>
 ---
-## Challenge 7 - Helm
+# Challenge 7 - Helm
 Package up your app in a Helm chart, get it deploying to GKE.
 
 <br><br>
 ---
-## Challenge 8 - Helm+Tilt
+# Challenge 8 - Helm+Tilt
 Package up your app in a Helm chart, get it deploying to GKE via Tilt.
 
 
@@ -245,7 +223,7 @@ These challenges go down the path of performing full infrastructure as code.
 
 <br><br>
 ---
-## Challenge TF1 - Terraform
+# Challenge TF1 - Terraform
 Bring up a matching GKE cluster via Terraform, move your process over to it.
 
 <br><br>
@@ -256,12 +234,12 @@ This path has you explore aspects of Release engineering and continuous integrat
 
 <br><br>
 ---
-## Challenge CI1 - CI
+# Challenge CI1 - CI
 Write a Cloud Build or Github Action that releases a new version of your code when a merge to master occurs.
 
 <br><br>
 ---
-## Challenge CI2 - CI Preview Branches
+# Challenge CI2 - CI Preview Branches
 Write a Cloud Build or Github Action that releases a new version of your code to some alternate URL when code is pushed to a branch.
 
 
@@ -334,8 +312,101 @@ cd tilt-example-html/0-base
 tilt up
 ```
 
+<br><br><br>
+---
 
-<br><br>
+# Tilt setup
+#### tilt installation - https://docs.tilt.dev/install.html
+
+1. Setup Docker as a non-root user - https://docs.docker.com/install/linux/linux-postinstall/
+
+    `sudo groupadd docker-nonroot` Create the docker group.<br>
+    `sudo usermod -aG docker-nonroot $USER` Add your user to the docker group.<br>
+    `docker run hello-world` Test that nonroot works
+
+##### Add user permissions to fix error: <br>`WARNING: Error loading config file:/home/user/.docker/config.json - stat /home/user/.docker/config.json: permission denied`
+```
+sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
+sudo chmod g+rwx "/home/$USER/.docker" -R
+```
+
+2. Install kubectl - [see below](#kubectl-installation---https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux)
+
+3. Install Microk8s:
+Enable dns fails! [See fix below](#trying-fix)
+```
+sudo snap install microk8s --classic && \
+sudo microk8s.enable dns && \
+sudo microk8s.enable registry
+```
+
+### Trying fix for microk8s dns error
+First remove the version of microk8s you already have, it might be disabled. Then redeploy from the edge channel since it has a lot of fixes:
+```
+sudo snap enable microk8s
+sudo snap remove microk8s
+sudo snap install microk8s --edge --classic
+sudo microk8s.enable dns && \
+sudo microk8s.enable registry
+```
+### WORKED! Proceeeding...
+
+#### Retrying instructions for starting microk8s from https://microk8s.io/docs/ 
+```
+sudo usermod -a -G microk8s $USER
+su - $USER
+microk8s.status --wait-ready
+```
+
+
+#### The following configuration code fails!! [See manual fix below](#fix-by-hand)
+```
+sudo microk8s.kubectl config view --flatten > ~/.kube/microk8s-config
+sudo KUBECONFIG=~/.kube/microk8s-config:~/.kube/config kubectl config view --flatten > ~/.kube/temp-config 
+sudo mv ~/.kube/temp-config ~/.kube/config 
+sudo kubectl config use-context microk8s
+```
+
+
+### Fix by hand
+`sudo microk8s.kubectl config view --flatten` Copy output<br>
+`sudo nano ~/.kube/microk8s-config` Paste here <br>
+`sudo KUBECONFIG=~/.kube/microk8s-config:~/.kube/config kubectl config view --flatten` Copy output<br>
+`sudo nano ~/.kube/temp-config` Paste here <br>
+`sudo mv ~/.kube/temp-config ~/.kube/config`<br>
+`sudo chown -R $USER ~/.kube` Should have done this earlier. Whatever. Change permissions for tilt to work, find kube config.
+
+### WORKED! Proceeeding...
+
+4. Install Tilt binary
+```
+curl -fsSL https://raw.githubusercontent.com/windmilleng/tilt/master/scripts/install.sh | bash
+tilt version
+```
+
+<br><br><br>
+---
+
+# postgres review
+#### Set up postgres container
+
+```
+docker run -d -p 5432:5432 -v "$(pwd)":/home/ postgres
+docker container ls
+docker exec -it wizardly_franklin bash
+cd home/
+psql -U postgres
+```
+
+#### Add sql dump from pgAdmin
+
+`psql -U postgres < menu.sql`
+
+<br><br><br>
+---
+
+# Failure is a crucial for achieving true success.
+
 # Failed
 
 ### `minikube start --vm-driver kvm2`
