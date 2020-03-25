@@ -1,6 +1,30 @@
 # ricethings-website
 <br><br><br>
 
+## Table of contents
+
+- [Warmup](#warmup)
+    - [Challenge 0 - Docker](#Challenge-0---Docker)
+    - [Challenge 1 - docker-compose](#Challenge-1---docker-compose)
+    - [Challenge 2 - Tilt](#Challenge-2---tilt)
+
+- [Kubernetes Starter Challenges](#Kubernetes-Starter-Challenges)
+    - [Challenge 3 - Kubernetes](#Challenge-3---Kubernetes)
+    - [Challenge 4 - Tilt+Kubernetes](#Challenge-4---Tilt+Kubernetes)
+    - [Challenge 5 - GKE](#Challenge-5---GKE)
+
+- [Kubernetes Advanced Challenges](#Kubernetes-Advanced-Challenges)    
+    - [Challenge 6 - Istio](#Challenge-6---Istio)
+    - [Challenge 7 - Helm](#Challenge-7---Helm)
+    - [Challenge 8 - Helm+Tilt](#Challenge-8---Helm+Tilt)
+
+- [Choose your own adventures](#Choose-your-own-adventures)
+    - [Challenge TF1 - Terraform](#Challenge-TF1---Terraform)
+    - [Challenge CI1 - CI](#Challenge-CI1---CI)
+    - [Challenge CI2 - CI Preview Branches](#Challenge-CI2---CI-Preview-Branches)
+
+# Warmup
+
 ## Challenge 0 - Docker
 Get a static website built into and served from within Docker on your mac.
 
@@ -28,6 +52,7 @@ Place this into dockerfile within parent directory<br>
 
 <br><br>
 ---
+
 ## Challenge 1 - docker-compose
 Set up docker-compose to make it so you can edit the content of the site while it is being served
 via a volume.
@@ -57,14 +82,9 @@ psql -U postgres
 `docker volume create --name=myvol` Create volume manually (numerous errors otherwise)<br>
 `docker-compose -f docker-compose.yml up --remove-orphans` Remove orphans flag added
 
+## [Review: Volume vs Bind Mount](#Practice-0)
 
-### Learning Aside: Concrete example of bind mounts vs. volumes
-`docker run -it --name test1 -v ~/ricethings-website/docs/data:/data ubuntu bash` Bind mount <br>
-`docker run -it --name test2 -v data:/data ubuntu bash` Docker volume <br>
-`docker volume prune` Removes all volumes not used by 1+ containers <br>
-`docker run -it --name test3 -v data:/data ubuntu bash` Attach existing volume despite deleting test2 <br>
-`docker run -it --name master -v backup:/backup -v logs:/logs ubuntu bash` Creates and mounts 2 volumes <br>
-`docker run -it --name slave1 --volumes-from master ubuntu bash` New container 'slave1' with volumes from master
+<br><br>
 
 # FINAL COMMANDS
 `docker build -t html-server-image:v1 .` Build web server image<br>
@@ -146,7 +166,7 @@ Package up your app in a Helm chart, get it deploying to GKE via Tilt.
 <br><br><br><br>
 # Choose your own adventures
 
-#### Path: Terraform
+## Path - Terraform
 These challenges go down the path of performing full infrastructure as code.
 
 <br><br>
@@ -156,7 +176,8 @@ Bring up a matching GKE cluster via Terraform, move your process over to it.
 
 <br><br>
 ---
-## Path: CI
+
+## Path - CI
 This path has you explore aspects of Release engineering and continuous integration.
 
 <br><br>
@@ -170,7 +191,17 @@ Write a Cloud Build or Github Action that releases a new version of your code wh
 Write a Cloud Build or Github Action that releases a new version of your code to some alternate URL when code is pushed to a branch.
 
 
+<br><br><br><br>
 
+# Practice 0
+`docker run -it --name test1 -v ~/ricethings-website/docs/data:/data ubuntu bash` Bind mount <br>
+`docker run -it --name test2 -v data:/data ubuntu bash` Docker volume <br>
+`docker volume prune` Removes all volumes not used by 1+ containers <br>
+`docker run -it --name test3 -v data:/data ubuntu bash` Attach existing volume despite deleting test2 <br>
+`docker run -it --name master -v backup:/backup -v logs:/logs ubuntu bash` Creates and mounts 2 volumes <br>
+`docker run -it --name slave1 --volumes-from master ubuntu bash` New container 'slave1' with volumes from master
+
+<br><br>
 # Failed
 
 ### `minikube start --vm-driver kvm2`
@@ -210,7 +241,7 @@ To see the stack trace of this error execute with --v=5 or higher
 
 ```
 
-
+<br><br>
 ## Failed2
 ### `minikube start --vm-driver none`
 
