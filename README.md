@@ -248,6 +248,8 @@ docker pull hashicorp/terraform:0.12.24
 docker run  hashicorp/terraform:0.12.24 --version
 ```
 
+#### Step 0: Get acquainted via tutorial
+[Simple terraform tutorial](#Practice-2)
 
 <br><br>
 ---
@@ -339,6 +341,45 @@ Run it, try it
 git clone https://github.com/windmilleng/tilt-example-html
 cd tilt-example-html/0-base
 tilt up
+```
+
+# Practice 2
+
+## Terraform 
+
+### major functions
+- `init`
+- `plan`
+- `apply`
+
+### additional fcns
+- format
+- import
+- validate (like lint)
+- workspace (diff env: dev/stage/prod)
+
+## Simple Tutorial
+```
+mkdir hello_terraform
+cd hello_terraform/
+nano main.tf
+```
+
+main.tf
+```
+output "greeting"{
+        value = "Hello Terraform."
+}
+
+provider "random" {}
+```
+initialize, apply, etc.
+```
+terraform init
+terraform plan
+terraform apply
+terraform output
+terraform state list
 ```
 
 <br><br><br>
