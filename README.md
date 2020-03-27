@@ -74,8 +74,9 @@ via a volume.
 `docker volume create --name=myvol` Create volume manually (numerous errors otherwise)<br>
 `docker-compose -f docker-compose.yml up --remove-orphans` Remove orphans flag added
 
-## [Review: Volume vs Bind Mount](#Practice-0)
-## [Review: Postgres via docker](#postgres-review)
+#### Review
+- [Volume vs Bind Mount](#Practice-0)
+- [Postgres via docker](#postgres-review)
 
 <br><br>
 
