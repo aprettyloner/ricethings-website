@@ -1,5 +1,4 @@
 # ricethings-website
-<br>
 
 ## Table of contents
 
@@ -26,6 +25,7 @@ Choose your own adventures
     - [Challenge CI1 - CI](#Challenge-CI1---CI)
     - [Challenge CI2 - CI Preview Branches](#Challenge-CI2---CI-Preview-Branches)
 
+<br>
 # Warmup
 
 # Challenge 0 - Docker
