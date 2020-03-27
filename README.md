@@ -235,7 +235,7 @@ Package up your app in a Helm chart, get it deploying to GKE via Tilt.
 ## Path - Terraform
 These challenges go down the path of performing full infrastructure as code.
 
-### terraform installation - terraform.io
+### terraform installation - https://www.terraform.io/downloads.html
 #### from binary
 - Download 64-bit Linux binary
 - Extract file and cd into containing directory
