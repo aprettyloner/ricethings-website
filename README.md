@@ -26,6 +26,7 @@ Choose your own adventures
     - [Challenge CI2 - CI Preview Branches](#Challenge-CI2---CI-Preview-Branches)
 
 <br>
+
 # Warmup
 
 # Challenge 0 - Docker
