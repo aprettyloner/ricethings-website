@@ -2,7 +2,6 @@ version: '3.7'
 
 services:
     db:
-      #container-name: postgres-ricethings
       image: postgres
       restart: always
       environment:
@@ -13,7 +12,6 @@ services:
 
     nginx:
       image: html-server-image:v1
-      #container_name: nginx-ricethings
       restart: always
       ports:
         - 800:80
