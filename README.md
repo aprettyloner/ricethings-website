@@ -145,7 +145,12 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-r
 ## kubectl commands
 `kubectl get pods` <br>
 `kubectl delete pods <name>` <br>
-`tilt down` - Remember to tilt down to actually shut down cluster. Will just recreate pods if you stop them, silly!
+`tilt down` - Remember to tilt down to actually shut down cluster. Will just recreate pods if you stop them, silly!<br>
+
+Check deployment
+```
+kubectl get deployment,svc,pods,pvc
+```
 
 <br>
 
@@ -154,6 +159,17 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-r
 
 Via direct yaml manifests, set up a Deployment and a Service to get your docker image serving inside
 a local Kubernetes cluster.
+
+## Kompose
+Kompose is a tool to help users who are familiar with docker-compose move to Kubernetes.
+
+##### kompose installation - https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/
+```
+curl -L https://github.com/kubernetes/kompose/releases/download/v1.21.0/kompose-linux-amd64 -o kompose
+chmod +x kompose
+sudo mv ./kompose /usr/local/bin/kompose
+```
+
 
 <br><br>
 ---
