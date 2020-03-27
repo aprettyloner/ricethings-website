@@ -18,7 +18,7 @@
     - [Challenge 7 - Helm](#Challenge-7---Helm)
     - [Challenge 8 - Helm+Tilt](#Challenge-8---Helm+Tilt)
 
-[Choose your own adventures](#Choose-your-own-adventures)
+Choose your own adventures
   - [Terraform Adventure](#Path---Terraform)
     - [Challenge TF1 - Terraform](#Challenge-TF1---Terraform)
   - [CI Adventure](#Path---CI)
