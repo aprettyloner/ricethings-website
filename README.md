@@ -264,6 +264,55 @@ check in browser: `http://localhost:8000/`
 Change your tilt+Kubernetes setup to target a remote cluster (use GKE)
 
 
+Setup gcloud locally - https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu
+```
+# Add the Cloud SDK distribution URI as a package source
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+# Import the Google Cloud Platform public key
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+
+# Update the package list and install the Cloud SDK
+sudo apt-get update && sudo apt-get install google-cloud-sdk
+```
+
+Configure gcloud user/project/settings
+```
+gcloud config set run/region us-central1
+gcloud init
+docker tag 810096e05893 gcr.io/qwiklabs-gcp-00-bf7945b943a3/helloworld
+docker push gcr.io/qwiklabs-gcp-00-bf7945b943a3/helloworld
+gcloud container images list
+gcloud run deploy --image gcr.io/qwiklabs-gcp-00-bf7945b943a3/helloworld --platform managed
+```
+
+kubectl authentication
+```
+
+gcloud container clusters get-credentials nginx-1-cluster
+docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud compute instances list --project qwiklabs-gcp-00-bf7945b943a3
+
+gcloud container clusters get-credentials nginx-1-cluster --zone us-central1-a --project qwiklabs-gcp-00-bf7945b943a3
+
+```
+
+
+GitLab - https://gitlab.com/test2532394816/auto-devops-example-rails
+
+
+## minikube - https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#enable-the-ingress-controller
+Enable ingress
+```
+minikube addons enable ingress
+kubectl get pods -n kube-system
+```
+
+Deploy, Expose port
+```
+kubectl run web --image=gcr.io/google-samples/hello-app:1.0 --port=8080
+kubectl expose deployment web --target-port=8080 --type=NodePort
+```
+
 <br><br><br><br>
 # Kubernetes Advanced Challenges
 <br><br>
@@ -280,6 +329,7 @@ Package up your app in a Helm chart, get it deploying to GKE.
 ---
 # Challenge 8 - Helm+Tilt
 Package up your app in a Helm chart, get it deploying to GKE via Tilt.
+
 
 
 <br><br><br><br>
