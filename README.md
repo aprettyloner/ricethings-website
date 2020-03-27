@@ -97,54 +97,9 @@ Set up tilt to be an alternate interface to docker-compose.
 #### Step 1: Get acquainted via tutorial
 [Simple tilt tutorial](#Practice-1)
 
-#### Step 2: Execute
-1. Dockerfile
-```
-FROM busybox
-WORKDIR .
-ADD . .
-ENTRYPOINT ./main.sh
-```
+#### Step 2: Execute Challenge 4
+[Challenge 4 - Tilt+Kubernetes](#Challenge-4---Tilt+Kubernetes)
 
-2. kubernetes.yaml
-```
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ricethings-html
-  labels:
-    app: ricethings-html
-spec:
-  selector:
-    matchLabels:
-      app: ricethings-html
-  template:
-    metadata:
-      labels:
-        app: ricethings-html
-    spec:
-      containers:
-      - name: ricethings-html
-        image: ricethings-html-image
-        ports:
-        - containerPort: 8000
-```
-
-3. Tiltfile
-```
-docker_build('ricethings-html-image', '.')
-k8s_yaml('kubernetes.yaml')
-k8s_resource('ricethings-html', port_forwards=8000)
-```
-Note: Had to remove `resource_deps=['deploy']` - wonder why this dep is not found as compared to tutorial
-
-## CHALLENGE 2 - SOLUTION
-
-```
-cd ricethings-website/docs
-tilt up
-```
-check in browser: `http://localhost:8000/`
 
 <br><br><br><br>
 # Kubernetes Starter Challenges
@@ -188,13 +143,13 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-r
 ```
 
 ## kubectl commands
-`kubectl get pods` 
-`kubectl delete pods <name>`
+`kubectl get pods` <br>
+`kubectl delete pods <name>` <br>
 `tilt down` - Remember to tilt down to actually shut down cluster. Will just recreate pods if you stop them, silly!
 
+<br>
+
 # Challenge 3 - Kubernetes
-
-
 
 
 Via direct yaml manifests, set up a Deployment and a Service to get your docker image serving inside
@@ -206,6 +161,54 @@ a local Kubernetes cluster.
 
 Change your tilt setup to no longer use docker-compose but instead have it manage the deployment
 inside your Kubernetes cluster.
+
+1. Dockerfile
+```
+FROM busybox
+WORKDIR .
+ADD . .
+ENTRYPOINT ./main.sh
+```
+
+2. kubernetes.yaml
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ricethings-html
+  labels:
+    app: ricethings-html
+spec:
+  selector:
+    matchLabels:
+      app: ricethings-html
+  template:
+    metadata:
+      labels:
+        app: ricethings-html
+    spec:
+      containers:
+      - name: ricethings-html
+        image: ricethings-html-image
+        ports:
+        - containerPort: 8000
+```
+
+3. Tiltfile
+```
+docker_build('ricethings-html-image', '.')
+k8s_yaml('kubernetes.yaml')
+k8s_resource('ricethings-html', port_forwards=8000)
+```
+Note: Had to remove `resource_deps=['deploy']` - wonder why this dep is not found as compared to tutorial
+
+## CHALLENGE 4 - SOLUTION
+
+```
+cd ricethings-website/docs
+tilt up
+```
+check in browser: `http://localhost:8000/`
 
 <br><br>
 ---
