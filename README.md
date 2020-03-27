@@ -57,6 +57,12 @@ docker run -d -p 800:80 html-server-image:v1
 
 `http://localhost:800/` in the browser (works as expected)
 
+
+#### Docker cleanup - https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes
+```
+docker system prune -a
+```
+
 <br><br>
 ---
 
@@ -173,13 +179,27 @@ a local Kubernetes cluster.
 ## kompose
 Kompose is a tool to help users who are familiar with docker-compose move to Kubernetes.
 
-##### kompose installation - https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/
+### kompose installation - https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/
 ```
 curl -L https://github.com/kubernetes/kompose/releases/download/v1.21.0/kompose-linux-amd64 -o kompose
 chmod +x kompose
 sudo mv ./kompose /usr/local/bin/kompose
 ```
 
+## docker setup
+-d flag for detached mode
+```
+docker build -t html-server-image:v1 - < Dockerfile-nginx
+docker-compose -f docker-compose.yml up --remove-orphans -d
+
+kubectl delete deployment.apps/ricethings-html
+kubectl delete service/kubernetes
+kubectl get deployment,svc,pods,pvc
+
+kubectl create -f test-deployment.yml
+
+kubectl describe pod <name>
+```
 
 <br><br>
 ---
@@ -281,18 +301,9 @@ docker pull hashicorp/terraform:0.12.24
 docker run  hashicorp/terraform:0.12.24 --version
 ```
 
-<<<<<<< HEAD
 #### Step 0: Get acquainted via tutorial - [Simple terraform tutorial](#simple-tutorial)
 
 #### Step 1: Learn HCL (Hashicorp Configuration Language) - [HCL Basics](#HCL-basics)
-=======
-#### Step 0: Get acquainted via tutorial
-[Simple terraform tutorial](#simple-tutorial)
-
-
-#### Step 1: Learn HCL (Hashicorp Configuration Language)
-[HCL Basics](#HCL-basics)
->>>>>>> 1b4cb2e18bcc56e162a91a28c3dcf2ad30b5e6e3
 
 <br><br>
 ---
