@@ -18,8 +18,10 @@
     - [Challenge 7 - Helm](#Challenge-7---Helm)
     - [Challenge 8 - Helm+Tilt](#Challenge-8---Helm+Tilt)
 
-- [Choose your own adventures](#Choose-your-own-adventures)
+[Choose your own adventures](#Choose-your-own-adventures)
+  - [Terraform Adventure](#Path---Terraform)
     - [Challenge TF1 - Terraform](#Challenge-TF1---Terraform)
+  - [CI Adventure](#Path---CI)
     - [Challenge CI1 - CI](#Challenge-CI1---CI)
     - [Challenge CI2 - CI Preview Branches](#Challenge-CI2---CI-Preview-Branches)
 
@@ -248,12 +250,9 @@ docker pull hashicorp/terraform:0.12.24
 docker run  hashicorp/terraform:0.12.24 --version
 ```
 
-#### Step 0: Get acquainted via tutorial
-[Simple terraform tutorial](#simple-tutorial)
+#### Step 0: Get acquainted via tutorial - [Simple terraform tutorial](#simple-tutorial)
 
-
-#### Step 1: Learn HCL (Hashicorp Configuration Language)
-[HCL Basics](#HCL-basics)
+#### Step 1: Learn HCL (Hashicorp Configuration Language) - [HCL Basics](#HCL-basics)
 
 <br><br>
 ---
