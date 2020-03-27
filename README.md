@@ -393,6 +393,18 @@ HCL Structure - root module
 - `outputs.tf` Declare outputs
 - `variables.tf` Declare variables
 
+main.tf
+- Main Blocks
+    - `terraform` (optional) config for Terraform Engine
+    - `provider` (optional) config for specific apis, e.g. AWS region/keys
+    - `resource` managed by Terraform (e.g., VMs, S3 buckets)
+    - `data` data sources NOT managed by Terraform
+
+cmd line
+`tf init`
+`tf plan -out example.tfplan` output plan to .tfplan file
+`terraform apply "example.tfplan` apply plan previously reviewed
+
 
 
 <br><br><br>
