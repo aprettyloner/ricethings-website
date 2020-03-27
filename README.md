@@ -79,9 +79,9 @@ via a volume.
 - [Volume vs Bind Mount](#Practice-0)
 - [Postgres via docker](#postgres-review)
 
-<br><br>
+<br>
 
-## CHALLENGE 1 - SOLUTION
+## SOLUTION
 `docker build -t html-server-image:v1 .` Build web server image<br>
 `docker-compose -f docker-compose.yml up --remove-orphans` Docker-compose to start postgres/nginx containers<br>
 `docker exec -t -i $CONTAINER_ID /bin/sh` Allows for bash in nginx container<br>
@@ -104,7 +104,12 @@ Set up tilt to be an alternate interface to docker-compose.
 [Challenge 4 - Tilt+Kubernetes](#Challenge-4---Tilt+Kubernetes)
 
 
+
 <br><br><br><br>
+
+# Kubernetes Starter Challenges
+<br><br>
+
 # Kubernetes Setup
 
 
@@ -155,9 +160,6 @@ Check deployment
 ```
 kubectl get deployment,svc,pods,pvc
 ```
-
-<br><br><br><br>
-# Kubernetes Starter Challenges
 
 
 <br>
@@ -226,7 +228,9 @@ k8s_resource('ricethings-html', port_forwards=8000)
 ```
 Note: Had to remove `resource_deps=['deploy']` - wonder why this dep is not found as compared to tutorial
 
-## CHALLENGE 4 - SOLUTION
+<br>
+
+## SOLUTION
 
 ```
 cd ricethings-website/docs
