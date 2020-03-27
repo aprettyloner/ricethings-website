@@ -249,7 +249,11 @@ docker run  hashicorp/terraform:0.12.24 --version
 ```
 
 #### Step 0: Get acquainted via tutorial
-[Simple terraform tutorial](#Practice-2)
+[Simple terraform tutorial](#simple-tutorial)
+
+
+#### Step 1: Learn HCL (Hashicorp Configuration Language)
+[HCL Basics](#HCL-basics)
 
 <br><br>
 ---
@@ -345,7 +349,7 @@ tilt up
 
 # Practice 2
 
-## Terraform 
+## Terraform Basics
 
 ### major functions
 - `init`
@@ -353,10 +357,10 @@ tilt up
 - `apply`
 
 ### additional fcns
-- format
-- import
-- validate (like lint)
-- workspace (diff env: dev/stage/prod)
+- `format`
+- `import`
+- `validate` (like lint)
+- `workspace` (diff env: dev/stage/prod)
 
 ## Simple Tutorial
 ```
@@ -381,6 +385,15 @@ terraform apply
 terraform output
 terraform state list
 ```
+
+## HCL Basics
+
+HCL Structure - root module
+- `main.tf` Declare resources
+- `outputs.tf` Declare outputs
+- `variables.tf` Declare variables
+
+
 
 <br><br><br>
 ---
