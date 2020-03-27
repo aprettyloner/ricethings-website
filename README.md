@@ -9,6 +9,7 @@
     - [Challenge 2 - Tilt](#Challenge-2---tilt)
 
 - [Kubernetes Starter Challenges](#Kubernetes-Starter-Challenges)
+    - [Kubernetes Setup](#Kubernetes-Setup)
     - [Challenge 3 - Kubernetes](#Challenge-3---Kubernetes)
     - [Challenge 4 - Tilt+Kubernetes](#Challenge-4---Tilt+Kubernetes)
     - [Challenge 5 - GKE](#Challenge-5---GKE)
@@ -102,7 +103,8 @@ Set up tilt to be an alternate interface to docker-compose.
 
 
 <br><br><br><br>
-# Kubernetes Starter Challenges
+# Kubernetes Setup
+
 
 ### minikube installation - https://kubernetes.io/docs/tasks/tools/install-minikube/
 `grep -E --color 'vmx|svm' /proc/cpuinfo` First, check that virtualization is supported (good - nonempty output)<br>
@@ -152,6 +154,10 @@ Check deployment
 kubectl get deployment,svc,pods,pvc
 ```
 
+<br><br><br><br>
+# Kubernetes Starter Challenges
+
+
 <br>
 
 # Challenge 3 - Kubernetes
@@ -160,7 +166,7 @@ kubectl get deployment,svc,pods,pvc
 Via direct yaml manifests, set up a Deployment and a Service to get your docker image serving inside
 a local Kubernetes cluster.
 
-## Kompose
+## kompose
 Kompose is a tool to help users who are familiar with docker-compose move to Kubernetes.
 
 ##### kompose installation - https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/
