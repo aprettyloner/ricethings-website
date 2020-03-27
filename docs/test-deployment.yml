@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ricethings-html
+  labels:
+    app: ricethings-html
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ricethings-html  
+  template:
+    metadata:
+      labels:
+        app: ricethings-html    
+    spec:
+      containers:
+      - env:
+        image: html-server-image/v1 
+        imagePullPolicy: Always
+        name: ricethings-html
+        ports:
+        - containerPort: 80

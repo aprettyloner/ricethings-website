@@ -15,8 +15,8 @@ services:
       restart: always
       ports:
         - 800:80
-      # volumes:
-      #   - $HOME/ricethings-website/docs:/docs
+      volumes:
+        - $HOME/ricethings-website/docs:/docs
       
 # volumes:
 #   docs:
