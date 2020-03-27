@@ -198,7 +198,7 @@ kubectl get deployment,svc,pods,pvc
 
 kubectl create -f test-deployment.yml
 
-kubectl describe pod <name>
+kubectl describe <pod_name>
 ```
 
 <br><br>
