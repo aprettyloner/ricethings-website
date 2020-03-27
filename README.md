@@ -250,9 +250,18 @@ docker pull hashicorp/terraform:0.12.24
 docker run  hashicorp/terraform:0.12.24 --version
 ```
 
+<<<<<<< HEAD
 #### Step 0: Get acquainted via tutorial - [Simple terraform tutorial](#simple-tutorial)
 
 #### Step 1: Learn HCL (Hashicorp Configuration Language) - [HCL Basics](#HCL-basics)
+=======
+#### Step 0: Get acquainted via tutorial
+[Simple terraform tutorial](#simple-tutorial)
+
+
+#### Step 1: Learn HCL (Hashicorp Configuration Language)
+[HCL Basics](#HCL-basics)
+>>>>>>> 1b4cb2e18bcc56e162a91a28c3dcf2ad30b5e6e3
 
 <br><br>
 ---
