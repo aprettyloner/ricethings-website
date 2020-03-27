@@ -1,5 +1,5 @@
 # ricethings-website
-<br><br><br>
+<br>
 
 ## Table of contents
 
