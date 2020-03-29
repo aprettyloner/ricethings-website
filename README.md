@@ -334,6 +334,16 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 ```
 
+via snap
+```
+sudo snap install helm --classic
+```
+
+Simple Tutorial - https://docs.bitnami.com/tutorials/create-your-first-helm-chart/
+```
+helm create mychart
+```
+
 <br><br>
 ---
 # Challenge 8 - Helm+Tilt
