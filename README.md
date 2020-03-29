@@ -325,6 +325,15 @@ Turn on Istio in your Kubernetes cluster, get your app to be served up by Istio 
 # Challenge 7 - Helm
 Package up your app in a Helm chart, get it deploying to GKE.
 
+### helm installation - https://helm.sh/docs/intro/install/
+
+via installer script
+```
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
 <br><br>
 ---
 # Challenge 8 - Helm+Tilt
