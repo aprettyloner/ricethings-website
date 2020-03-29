@@ -342,6 +342,7 @@ sudo snap install helm --classic
 Simple Tutorial - https://docs.bitnami.com/tutorials/create-your-first-helm-chart/
 ```
 helm create mychart
+helm install --dry-run --debug ./mychart --generate-name
 ```
 
 <br><br>
