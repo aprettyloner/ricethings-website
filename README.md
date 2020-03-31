@@ -506,6 +506,26 @@ terraform output
 terraform state list
 ```
 
+## OReilly Tutorial
+
+```
+cd ~/ricethings-website/terraform-sample
+
+```
+
+Using outputs to deal with unique restraint for S3 buckets
+```
+resource "aws_s3_bucket" "bucket1" {
+    bucket = "bucket1"
+}
+```
+
+The above causes failure because 'bucket1' is not unique across AWS. Solutions
+1. Leave bucket attribute blank (random name assigned, difficult to find among many)
+2. Utilize terraform buckets - can be retrieved at anytime using `terraform output`
+
+
+
 ## HCL Basics
 
 HCL Structure - root module
