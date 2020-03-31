@@ -510,19 +510,22 @@ terraform state list
 
 ```
 cd ~/ricethings-website/terraform-sample
-
+nano main.tf
 ```
 
-Using outputs to deal with unique restraint for S3 buckets
+Using outputs to deal with unique restraint for S3 buckets - INTERPOLATION
 ```
 resource "aws_s3_bucket" "bucket1" {
-    bucket = "bucket1"
+    bucket = "${data.aws_caller_identity.current.account_id}-bucket1"
 }
 ```
 
 The above causes failure because 'bucket1' is not unique across AWS. Solutions
-1. Leave bucket attribute blank (random name assigned, difficult to find among many)
+1. Leave bucket attribute blank (random name assigned, difficult to find among many)<br>
+`Error: Error creating S3 bucket: BucketAlreadyExists: The requested bucket name is not available. The bucket namespace is shared by all users of the system.`
 2. Utilize terraform buckets - can be retrieved at anytime using `terraform output`
+
+
 
 
 
