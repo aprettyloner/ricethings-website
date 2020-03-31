@@ -14,7 +14,7 @@ provider "aws" {
 ## Note: 'bucket1' is a REFERENCE LABEL. Not actual name in S3.
 ## To do so, add an ATTRIBUTE (or use outputs)
 resource "aws_s3_bucket" "bucket1" {
-    bucket = "bucket1"
+    bucket = "${data.aws_caller_identity.current.account_id}-bucket1"
 }
 
 output "bucket_info" {
