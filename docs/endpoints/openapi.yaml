@@ -107,7 +107,7 @@ securityDefinitions:
     # This must match the 'iss' field in the JWT.
     x-google-issuer: "jwt-client.endpoints.sample.google.com"
     # Update this with your service account's email address.
-    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/jwk/YOUR-SERVICE-ACCOUNT-EMAIL"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/jwk/student-00-f0e2286f5d76@qwiklabs.net"
     # This must match the "aud" field in the JWT. You can add multiple audiences to accept JWTs from multiple clients.
     x-google-audiences: "echo.endpoints.sample.google.com"
   # This section configures authentication using Google App Engine default
@@ -130,10 +130,10 @@ securityDefinitions:
     authorizationUrl: ""
     flow: "implicit"
     type: "oauth2"
-    # Replace YOUR-SERVICE-ACCOUNT-EMAIL with your service account email.
-    x-google-issuer: "YOUR-SERVICE-ACCOUNT-EMAIL"
-    # Replace YOUR-SERVICE-ACCOUNT-EMAIL with your service account email.
-    x-google-jwks_uri: "https://www.googleapis.com/robot/v1/metadata/x509/YOUR-SERVICE-ACCOUNT-EMAIL"
+    # Replace student-00-f0e2286f5d76@qwiklabs.net with your service account email.
+    x-google-issuer: "student-00-f0e2286f5d76@qwiklabs.net"
+    # Replace student-00-f0e2286f5d76@qwiklabs.net with your service account email.
+    x-google-jwks_uri: "https://www.googleapis.com/robot/v1/metadata/x509/student-00-f0e2286f5d76@qwiklabs.net"
     # This must match the "aud" field in the JWT. You can add multiple audiences to accept JWTs from multiple clients.
     x-google-audiences: "echo.endpoints.sample.google.com"
   # This section configures authentication using Google OAuth2 ID Tokens.
